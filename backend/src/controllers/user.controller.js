@@ -4,17 +4,17 @@ import User from "../models/User.js";
 export async function getRecommendedUsers(req, res) {
   try {
     const currentUserId = req.user.id;
-    // const currentUser = await User.findById(currentUserId);
     const currentUser = req.user;
 
     const getRecommendedUsers = await User.find({
       $and: [
         { _id: { $ne: currentUserId } }, // exclude current user
-        { $id: { $nin: currentUser.friends } }, // exclude current users friends
+        { _id: { $nin: currentUser.friends } }, // exclude current users friends
         { isOnboarded: true },
       ],
     });
-    res.status(200).json({ succcess: true, getRecommendedUsers });
+
+    res.status(200).json(getRecommendedUsers);
   } catch (error) {
     console.error("Error in getRecommendedUser controller", error.message);
     res.status(500).json({ message: "Internal server error" });
