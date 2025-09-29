@@ -124,6 +124,33 @@ export async function acceptFriendRequest(req, res) {
   }
 }
 
+export async function rejectFriendRequest(req, res) {
+  try {
+    const { id: requestId } = req.params;
+
+    const friendRequest = await FriendRequest.findById(requestId);
+
+    if (!friendRequest) {
+      return res.status(404).json({ message: "Friend request not found" });
+    }
+
+    // Verify the current user is the recipient
+    if (friendRequest.recipient.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to reject this request" });
+    }
+
+    friendRequest.status = "rejected";
+    await friendRequest.save();
+
+    res.status(200).json({ message: "Friend request rejected" });
+  } catch (error) {
+    console.log("Error in acceptFriendRequest controller", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 export async function getFriendRequest(req, res) {
   try {
     const incomingReqs = await FriendRequest.find({
@@ -139,7 +166,12 @@ export async function getFriendRequest(req, res) {
       status: "accepted",
     }).populate("recipient", "fullName profilePic");
 
-    res.status(200).json({ incomingReqs, acceptReqs });
+    const rejectReqs = await FriendRequest.find({
+      sender: req.user.id,
+      status: "rejected",
+    }).populate("recipient", "fullName profilePic");
+
+    res.status(200).json({ incomingReqs, acceptReqs, rejectReqs });
   } catch (error) {
     console.log("Error in getPendingFriendRequest controller", error.message);
     res.status(500).json({ message: "internal Server Error" });
