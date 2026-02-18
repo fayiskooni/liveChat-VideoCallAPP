@@ -18,6 +18,7 @@ import { capitialize } from "../lib/utils";
 
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
+import Avatar from "../components/Avatar";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -151,7 +152,7 @@ const HomePage = () => {
                       <div className="flex items-center gap-4">
                         <div className="relative">
                           <div className="avatar size-16 rounded-2xl overflow-hidden ring-2 ring-base-content/5 group-hover:ring-primary/30 transition-all duration-500">
-                            <img src={user.profilePic} alt={user.fullName} className="object-cover" />
+                            <Avatar src={user.profilePic} alt={user.fullName} />
                           </div>
                         </div>
 

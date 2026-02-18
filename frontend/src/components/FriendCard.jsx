@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router";
 import { LANGUAGE_TO_FLAG } from "../constants";
 import { removeFriend } from "../lib/api";
+import Avatar from "./Avatar";
 
 const FriendCard = ({ friend }) => {
   const queryClient = useQueryClient();
@@ -30,9 +31,9 @@ const FriendCard = ({ friend }) => {
         <div className="flex items-center gap-4 mb-4">
           <div className="relative">
             <div className="avatar size-14 rounded-2xl overflow-hidden ring-2 ring-base-content/5 group-hover:ring-primary/30 transition-all duration-500">
-              <img src={friend.profilePic} alt={friend.fullName} className="object-cover" />
+              <Avatar src={friend.profilePic} alt={friend.fullName} />
             </div>
-            <div className="absolute -bottom-1 -right-1 size-4 bg-success border-2 border-base-100 rounded-full" />
+            <div className="absolute bottom-0 right-0 size-3 bg-success border-2 border-base-100 rounded-full" />
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="font-bold text-lg truncate group-hover:text-primary transition-colors">{friend.fullName}</h3>

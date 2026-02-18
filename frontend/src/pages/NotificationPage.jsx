@@ -12,6 +12,7 @@ import {
   UserCheckIcon,
 } from "lucide-react";
 import NoNotificationsFound from "../components/NoNotificationsFound";
+import Avatar from "../components/Avatar";
 
 const NotificationPage = () => {
   const queryClient = useQueryClient();
@@ -85,13 +86,12 @@ const NotificationPage = () => {
                         <div className="flex items-center gap-4 w-full sm:w-auto">
                           <div className="relative">
                             <div className="avatar size-14 rounded-2xl overflow-hidden ring-2 ring-base-content/10 group-hover:ring-primary/40 transition-all duration-500">
-                              <img
+                              <Avatar
                                 src={request.sender.profilePic}
                                 alt={request.sender.fullName}
-                                className="object-cover"
                               />
                             </div>
-                            <div className="absolute -bottom-1 -right-1 size-4 bg-primary border-2 border-base-100 rounded-full animate-pulse" />
+                            <div className="absolute bottom-0 right-0 size-4 bg-primary border-2 border-base-100 rounded-full animate-pulse" />
                           </div>
 
                           <div>
@@ -156,13 +156,12 @@ const NotificationPage = () => {
                       <div className="relative z-10 flex gap-4 items-center">
                         <div className="relative">
                           <div className="avatar size-12 rounded-2xl overflow-hidden ring-2 ring-base-content/10 group-hover:ring-success/40 transition-all duration-500">
-                            <img
+                            <Avatar
                               src={notification.recipient.profilePic}
                               alt={notification.recipient.fullName}
-                              className="object-cover"
                             />
                           </div>
-                          <div className="absolute -bottom-1 -right-1 flex items-center justify-center size-5 bg-success border-2 border-base-100 rounded-full">
+                          <div className="absolute bottom-0 right-0 flex items-center justify-center size-5 bg-success border-2 border-base-100 rounded-full">
                             <UserCheckIcon className="size-3 text-white" />
                           </div>
                         </div>

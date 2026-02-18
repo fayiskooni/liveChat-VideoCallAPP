@@ -11,6 +11,7 @@ import {
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import Avatar from "../components/Avatar";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -64,10 +65,9 @@ const OnboardingPage = () => {
               {/* IMAGE PREVIEW */}
               <div className=" size-32 rounded-full bg-base-300 overflow-hidden">
                 {formState.profilePic ? (
-                  <img
+                  <Avatar
                     src={formState.profilePic}
                     alt="Profile Preview"
-                    className=" w-full h-full object-cover"
                   />
                 ) : (
                   <div className=" flex items-center justify-center h-full">

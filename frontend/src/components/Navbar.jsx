@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router";
 import useLogout from "../hooks/useLogout";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
+import Avatar from "./Avatar";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
@@ -43,13 +44,11 @@ const Navbar = () => {
 
             <div className="h-8 w-[1px] bg-base-content/10 mx-1" />
 
+
+
             <div className="avatar">
-              <div className="w-9 rounded-xl ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100">
-                <img
-                  src={authUser?.profilePic}
-                  alt="User Avatar"
-                  rel="noreferrer"
-                />
+              <div className="w-9 rounded-xl ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100 overflow-hidden">
+                <Avatar src={authUser?.profilePic} alt="User Avatar" />
               </div>
             </div>
 

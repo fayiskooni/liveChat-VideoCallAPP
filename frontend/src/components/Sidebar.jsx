@@ -3,6 +3,7 @@ import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
 import { Bell, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import Avatar from "./Avatar";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
@@ -48,9 +49,9 @@ const Sidebar = () => {
         <div className="bg-base-200/50 backdrop-blur-sm p-4 rounded-3xl border border-base-content/5 flex items-center gap-4 hover:bg-base-200/80 transition-all duration-300 shadow-lg shadow-black/5 cursor-pointer group">
           <div className="relative">
             <div className="avatar size-11 rounded-2xl overflow-hidden ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100 group-hover:ring-primary/40 transition-all">
-              <img src={authUser?.profilePic} alt="User Avatar" className="object-cover" />
+              <Avatar src={authUser?.profilePic} alt="User Avatar" />
             </div>
-            <div className="absolute -bottom-1 -right-1 size-3.5 bg-success border-2 border-base-100 rounded-full" />
+            <div className="absolute bottom-0 right-0 size-3 bg-success border-2 border-base-100 rounded-full" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-bold text-sm truncate uppercase tracking-tight">{authUser?.fullName}</p>
