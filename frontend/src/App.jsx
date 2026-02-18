@@ -27,7 +27,7 @@ const App = () => {
   if (isLoading) return <PageLoader />;
 
   return (
-    <div className="h-screen" data-theme={theme}>
+    <div className="h-screen overflow-hidden bg-base-100" data-theme={theme}>
       <Routes>
         <Route
           path="/"
@@ -73,7 +73,7 @@ const App = () => {
             )
           }
         />
-         <Route
+        <Route
           path="/friends"
           element={
             isAuthenticated && isOnboarded ? (

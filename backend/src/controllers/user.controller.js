@@ -62,7 +62,7 @@ export async function sendFriendRequest(req, res) {
     }
 
     // check if a req already exists
-    const existingRequest = await FriendRequest.findOne({
+    let existingRequest = await FriendRequest.findOne({
       $or: [
         { sender: myId, recipient: recipientId },
         { sender: recipientId, recipient: myId },
@@ -70,9 +70,19 @@ export async function sendFriendRequest(req, res) {
     });
 
     if (existingRequest) {
-      return res.status(400).json({
-        message: "A friend request already exists between you and this user",
-      });
+      if (existingRequest.status === "pending") {
+        return res.status(400).json({
+          message: "A friend request already exists between you and this user",
+        });
+      }
+
+      // If request exists but is rejected or accepted (implying unfriended), reuse it
+      existingRequest.status = "pending";
+      existingRequest.sender = myId;
+      existingRequest.recipient = recipientId;
+      await existingRequest.save();
+
+      return res.status(200).json(existingRequest);
     }
 
     const friendRequest = await FriendRequest.create({
@@ -84,6 +94,36 @@ export async function sendFriendRequest(req, res) {
   } catch (error) {
     console.error("Error in sendFriendRequest controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function removeFriend(req, res) {
+  try {
+    const myId = req.user.id;
+    const { id: friendId } = req.params;
+
+    const friend = await User.findById(friendId);
+    if (!friend) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Remove from friends arrays
+    await User.findByIdAndUpdate(myId, { $pull: { friends: friendId } });
+    await User.findByIdAndUpdate(friendId, { $pull: { friends: myId } });
+
+    // Remove the friend request record to allow clean re-add
+    await FriendRequest.findOneAndDelete({
+      $or: [
+        { sender: myId, recipient: friendId },
+        { sender: friendId, recipient: myId },
+        // Also cover cases where they might match but be in different order
+      ],
+    });
+
+    res.status(200).json({ message: "Friend removed successfully" });
+  } catch (error) {
+    console.error("Error in removeFriend controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 

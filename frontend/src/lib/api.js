@@ -37,7 +37,7 @@ export async function getUserFriends() {
 
 export async function getRecommendedUsers() {
   const response = await axiosInstance.get("/users");
-  
+
   return response.data;
 }
 
@@ -63,6 +63,11 @@ export async function acceptFriendRequest(requestId) {
 
 export async function rejectFriendRequest(requestId) {
   const response = await axiosInstance.put(`/users/friend-request/${requestId}/reject`);
+  return response.data;
+}
+
+export async function removeFriend(friendId) {
+  const response = await axiosInstance.delete(`/users/remove-friend/${friendId}`);
   return response.data;
 }
 
